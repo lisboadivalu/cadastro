@@ -20,3 +20,4 @@ Route::get('/', function () {
 })->name('index');
 
 Route::resource('categorias', ControladorCategoria::class);
+Route::resource('produtos', ControladorProduto::class);

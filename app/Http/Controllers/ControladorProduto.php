@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produto;
 use App\Models\Categoria;
 
-
-class ControladorCategoria extends Controller
+class ControladorProduto extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,9 @@ class ControladorCategoria extends Controller
      */
     public function index()
     {
-        $categoria = Categoria::all();
-        return view('categorias', compact(['categoria']));
+        $produtos = Produto::all();
+        $categorias = Categoria::all();
+        return view('produtos', compact(['produtos','categorias']));
     }
 
     /**
@@ -26,7 +27,7 @@ class ControladorCategoria extends Controller
      */
     public function create()
     {
-        return view('novacategoria');
+        //
     }
 
     /**
@@ -37,16 +38,7 @@ class ControladorCategoria extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = new Categoria;
-        $categoria->name = $request->input('nomeCategoria');
-        if(isset($categoria['name'])){
-            $categoria->save();
-            return redirect()->route('categorias.index');
-            } else {
-            return view('novacategoria');
-        }
-
-        
+        //
     }
 
     /**
@@ -67,10 +59,8 @@ class ControladorCategoria extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-        $this->id = $id;
-        $categoria = Categoria::find($id);
-        return view('editar', compact(['categoria']));
+    {
+        //
     }
 
     /**
@@ -82,15 +72,7 @@ class ControladorCategoria extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->id = $id;
-        $categoria = Categoria::find($id);
-        $categoria->name = $request->input('nomeCategoria');
-        if(isset($categoria['name'])){
-            $categoria->save();
-            return redirect()->route('categorias.index');
-            } else {
-                return redirect()->route('categorias.edit');
-            };
+        //
     }
 
     /**
@@ -101,11 +83,6 @@ class ControladorCategoria extends Controller
      */
     public function destroy($id)
     {
-        $this->id = $id;
-        $del = Categoria::find($id);
-        if(isset($del)){
-            $del->delete();
-        }
-        return redirect()->route('categorias.index');
+        //
     }
 }
