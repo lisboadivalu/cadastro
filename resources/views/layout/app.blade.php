@@ -35,6 +35,9 @@
         .bts{
             margin-top: 10px;
         }
+        .frm{
+            width: 200px;
+        }
     </style>
 </head>
 <body>
