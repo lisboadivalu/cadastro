@@ -71,8 +71,8 @@ class ControladorProduto extends Controller
      */
     public function edit($id)
     {
-        $this->id = $id;
         $categoria = Categoria::all();
+        $this->id = $id;
         $produto = Produto::find($id);
         return view('editarproduto', compact(['produto','categoria']));
     }
@@ -85,12 +85,12 @@ class ControladorProduto extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    { 
         $this->id = $id;
         $produto = Produto::find($id);
         $produto->name = $request->input('nomeProduto');
         $produto->preco = $request->input('precoProduto');
-        $produto->categoria_id = $request->input('categoriaProduto');
+        $produto->categoria_id = $request->input('nomeCategoria');
         if(isset($produto['name'])){
             $produto->save();
             return redirect()->route('produtos.index');

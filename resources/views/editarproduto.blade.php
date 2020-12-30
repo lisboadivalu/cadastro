@@ -19,6 +19,7 @@
                 </div>
                 <div class="top">
                     <label for="nomeCategoria">Categoria</label>
+            
                     <select class="custom-select nomeCategoria" name="nomeCategoria" id="nomeCategoria">
                         @foreach ($categoria as $c)
                             <option value="{{$produto['categoria_id']}}">{{$c['name']}}</option>
