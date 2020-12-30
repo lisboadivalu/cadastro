@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produto;
 use App\Models\Categoria;
+use App\Models\Produto;
+
 
 class ControladorProduto extends Controller
 {
@@ -15,9 +16,9 @@ class ControladorProduto extends Controller
      */
     public function index()
     {
-        $produtos = Produto::all();
-        $categorias = Categoria::all();
-        return view('produtos', compact(['produtos','categorias']));
+        $produto = Produto::all();
+        $categoria = Categoria::all();
+        return view('produtos', compact(['produto']));
     }
 
     /**
@@ -27,7 +28,8 @@ class ControladorProduto extends Controller
      */
     public function create()
     {
-        return view('novoproduto');
+        $categoria = Categoria::all();
+        return view('novoproduto', compact(['categoria']));
     }
 
     /**
@@ -38,7 +40,16 @@ class ControladorProduto extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produto = new Produto;
+        $produto->name = $request->input('nomeProduto');
+        $produto->preco = $request->input('precoProduto');
+        $produto->categoria_id = $request->input('nomeCategoria');
+        if(isset($produto['name'])){
+        $produto->save();
+        return redirect()->route('produtos.index');
+        } else {
+            return view('novoproduto');
+        }
     }
 
     /**
@@ -60,7 +71,10 @@ class ControladorProduto extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->id = $id;
+        $categoria = Categoria::all();
+        $produto = Produto::find($id);
+        return view('editarproduto', compact(['produto','categoria']));
     }
 
     /**
@@ -72,7 +86,17 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->id = $id;
+        $produto = Produto::find($id);
+        $produto->name = $request->input('nomeProduto');
+        $produto->preco = $request->input('precoProduto');
+        $produto->categoria_id = $request->input('categoriaProduto');
+        if(isset($produto['name'])){
+            $produto->save();
+            return redirect()->route('produtos.index');
+        } else {
+            return view('editarproduto');
+        }
     }
 
     /**
@@ -83,6 +107,11 @@ class ControladorProduto extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->id = $id;
+        $del = Produto::find($id);
+        if(isset($del)){
+            $del->delete();
+        } 
+        return redirect()->route('produtos.index');
     }
 }

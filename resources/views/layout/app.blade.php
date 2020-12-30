@@ -33,10 +33,14 @@
             margin-left: 160px;
         }
         .bts{
-            margin-top: 10px;
+            margin-top: 40px;
         }
         .frm{
             width: 200px;
+        }
+
+        .top{
+            margin-top: 20px;
         }
     </style>
 </head>

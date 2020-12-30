@@ -1,7 +1,7 @@
-@extends('layout.app', ["current" => "produtos"])
+@extends('layout.app', ["current" => "Produtos"])
 
 @section('body')
-@if (count($produtos)>0)
+@if (count($produto)>0)
 <div class="card border">
     <div class="card-body"> 
         <h5 class="card-title">Listagem de Produtos</h5>
@@ -17,21 +17,21 @@
                         </tr>
                         <div class="roll">
                             <tbody>
-                                @foreach ($categoria as $c)
+                                @foreach ($produto as $p)
                                     <tr>
-                                        <td>{{$c['id']}}</td>
-                                        <td>{{$c['name']}}</td>
-                                        <td>{{$c['preco']}}</td>
-                                        <td>{{$c['categoria']}}</td>
+                                        <td>{{$p['id']}}</td>
+                                        <td>{{$p['name']}}</td>
+                                        <td>{{$p['preco']}}</td>
+                                        <td>{{$p['categoria_id']}}</td>
                                         <td>
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="row align-items-start">
                                                         <div class="col">
-                                                            <a href="{{ route('produtos.edit', $c['id']) }}" class="btn btn-sm btn-primary">Editar</a>
+                                                            <a href="{{ route('produtos.edit', $p['id']) }}" class="btn btn-sm btn-primary">Editar</a>
                                                         </div>
                                                         <div class="col">
-                                                            <form action="{{ route('produtos.destroy', $c['id']) }}" method="POST">
+                                                            <form action="{{ route('produtos.destroy', $p['id']) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <input type="submit" class="btn btn-sm btn-danger" value="Apagar">

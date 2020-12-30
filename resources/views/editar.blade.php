@@ -1,4 +1,4 @@
-@extends('layout.app', ["current" => "editar"])
+@extends('layout.app', ["current" => "Editar Categoria"])
 
 @section('body')
 
