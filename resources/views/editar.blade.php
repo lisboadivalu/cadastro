@@ -9,10 +9,13 @@
             @csrf
             <div class="form-group">
                 <label for="nomeCategoria">Nome da Categoria</label>
-                <input type="hidden" placeholder="{{$categoria['id']}}">
-                <input type="text" class="form-control" name="nomeCategoria" placeholder="{{$categoria['name']}}">
+                <input type="text" class="form-control {{ $errors->has('nomeCategoria') ? 'is-invalid' : ''}}" name="nomeCategoria" placeholder="{{$categoria['name']}}">
+                @if($errors->has('nomeCategoria'))
+                    {{$errors->first('nomeCategoria')}}
+                @endif
                 <div class="bts">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+                <button type="submit" class="btn btn-danger btn-sm"><a href="{{route('categorias.index')}}">Cancelar</a></button>
                 </div>    
             </div>
         </form>

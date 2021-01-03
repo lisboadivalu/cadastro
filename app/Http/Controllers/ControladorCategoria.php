@@ -37,16 +37,20 @@ class ControladorCategoria extends Controller
      */
     public function store(Request $request)
     {
+        $regras = [
+            "nomeCategoria" => "required"
+        ];
+
+        $mensagem = [
+            'required' => 'O campo :attribute precisa ser preenchido.' 
+        ];
+
+        $request->validate($regras, $mensagem);
+
         $categoria = new Categoria;
         $categoria->name = $request->input('nomeCategoria');
-        if(isset($categoria['name'])){
-            $categoria->save();
-            return redirect()->route('categorias.index');
-            } else {
-            return view('novacategoria');
-        }
-
-        
+        $categoria->save();
+        return redirect()->route('categorias.index');
     }
 
     /**
@@ -82,15 +86,19 @@ class ControladorCategoria extends Controller
      */
     public function update(Request $request, $id)
     {
+        $regras = [
+            "nomeCategoria" => "required"
+        ];
+        $mensagem = [
+            'required' => 'O campo :attribute precisa ser preenchido.' 
+        ];
+        $request->validate($regras, $mensagem);
+
         $this->id = $id;
         $categoria = Categoria::find($id);
         $categoria->name = $request->input('nomeCategoria');
-        if(isset($categoria['name'])){
-            $categoria->save();
-            return redirect()->route('categorias.index');
-            } else {
-                return redirect()->route('categorias.edit');
-            };
+        $categoria->save();
+        return redirect()->route('categorias.index');
     }
 
     /**

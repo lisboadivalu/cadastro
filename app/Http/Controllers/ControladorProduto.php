@@ -40,16 +40,22 @@ class ControladorProduto extends Controller
      */
     public function store(Request $request)
     {
+        $regras = [
+            'nomeProduto' => 'required',
+            'precoProduto' => 'required',
+            'nomeCategoria' => 'required'
+        ];
+        $mensagem = [
+            'required' => 'O campo :attribute precisa ser preenchido.'
+        ];
+        $request->validate($regras, $mensagem);
+
         $produto = new Produto;
         $produto->name = $request->input('nomeProduto');
         $produto->preco = $request->input('precoProduto');
         $produto->categoria_id = $request->input('nomeCategoria');
-        if(isset($produto['name'])){
         $produto->save();
         return redirect()->route('produtos.index');
-        } else {
-            return view('novoproduto');
-        }
     }
 
     /**
@@ -86,17 +92,23 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     { 
+        $regras = [
+            'nomeProduto' => 'required',
+            'precoProduto' => 'required',
+            'nomeCategoria' => 'required'
+        ];
+        $mensagem = [
+            'required' => 'O campo :attribute precisa ser preenchido.'
+        ];
+        $request->validate($regras, $mensagem);
+
         $this->id = $id;
         $produto = Produto::find($id);
         $produto->name = $request->input('nomeProduto');
         $produto->preco = $request->input('precoProduto');
         $produto->categoria_id = $request->input('nomeCategoria');
-        if(isset($produto['name'])){
-            $produto->save();
-            return redirect()->route('produtos.index');
-        } else {
-            return view('editarproduto');
-        }
+        $produto->save();
+        return redirect()->route('produtos.index');
     }
 
     /**

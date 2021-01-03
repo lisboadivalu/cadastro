@@ -34,6 +34,11 @@
         }
         .bts{
             margin-top: 40px;
+            
+        }
+        .bts a{
+            text-decoration: none;
+            color: white;
         }
         .frm{
             width: 200px;
