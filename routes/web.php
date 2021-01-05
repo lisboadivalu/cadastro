@@ -21,3 +21,4 @@ Route::get('/', function () {
 
 Route::resource('categorias', ControladorCategoria::class);
 Route::resource('produtos', ControladorProduto::class);
+Route::get('/produtos', [ControladorProduto::class, 'indexView'])->name('produtos.indexView');

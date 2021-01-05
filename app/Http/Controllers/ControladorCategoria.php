@@ -116,4 +116,12 @@ class ControladorCategoria extends Controller
         }
         return redirect()->route('categorias.index');
     }
+    /*
+    Esta API mostra todos as categorias ao usuario atraves de requisicao Json
+    */
+    public function indexJson()
+    {
+        $categoria = Categoria::all();
+        return json_encode($categoria);
+    }
 }

@@ -14,11 +14,17 @@ class ControladorProduto extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function indexView()
+    {
+        return view('produtos');
+    }
+
     public function index()
     {
         $produto = Produto::all();
-        $categoria = Categoria::all();
-        return view('produtos', compact(['produto']));
+        return $produto->toJson();
     }
 
     /**
@@ -126,4 +132,6 @@ class ControladorProduto extends Controller
         } 
         return redirect()->route('produtos.index');
     }
+
+    
 }

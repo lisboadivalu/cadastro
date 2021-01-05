@@ -9,7 +9,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="{{request()->routeIs('produtos.*') ? 'nav-item active' : '' }}">
-        <a class="nav-link" href="{{ route('produtos.index')}}">Produtos</a>
+        <a class="nav-link" href="{{ route('produtos.indexView')}}">Produtos</a>
       </li>
       <li class="{{request()->routeIs('categorias.*') ? 'nav-item active' : '' }}">
         <a class="nav-link" href="{{ route('categorias.index')}}">Categorias</a>
