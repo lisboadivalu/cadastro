@@ -62,8 +62,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <button type="submit" class="btn btn-secondary" data-dissmiss>Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="esp">Salvar</button>
+                        <button type="submit" class="btn btn-secondary" data-dismiss>Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -74,12 +74,19 @@
 
 @section('javascript')
 <script type="text/javascript">
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}" 
+        }
+    });
+
     function novoProduto(){
         $('#id').val('');
         $('#nomeProduto').val('');
         $('#precoProduto').val('');
         $('#nomeCategoria').val('');
-        $('#dlgProdutos').modal('show') 
+        $('#dlgProdutos').modal('show');    
     }
     
     function carregarCategorias() {
@@ -95,11 +102,11 @@
         var linha = "<tr>" +
             "<td>" + p.id + "</td>" +
             "<td>" + p.name + "</td>" +
-            "<td>" + p.preco + "</td>" +
+            "<td>" + "R$ " + p.preco + "</td>" +
             "<td>" + p.categoria_id + "</td>" +
             "<td>" +
-                '<button class="btn btn-sm btn-primary">Editar</button>' +
-                '<button class="btn btn-sm btn-danger">Apagar</button>' +
+                '<button class="btn btn-sm btn-primary" onclick= "editar('+ p.id + ')">Editar</button>' +
+                '<button class="btn btn-sm btn-danger" onclick= "remover('+ p.id + ')">Apagar</button>' +
             "</td>" +
             "</tr>";
             return linha;
@@ -114,9 +121,49 @@
         });
     }
 
+    function remover(id){
+        $.ajax({
+            type:"DELETE",
+            url:"api/produtos/" + id,
+            context: this,
+            success: function(){
+                console.log('Apagou OK');
+                linhas = $('#tabelaProdutos>tbody>tr');
+                e = linhas.filter(function(i,elementos){ 
+                    return elementos.cells[0].textContent == id
+                    });
+                    if (e){
+                        e.remove();
+                    }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+ 
+    function criarProdutos(){
+        prod = {
+            nomeProduto: $("#nomeProduto").val(),
+            precoProduto: $("#precoProduto").val(),
+            nomeCategoria: $("#nomeCategoria").val()
+        };
+        $.post("/api/produtos", prod, function(data){
+            produto = JSON.parse(data);
+            linha = montarLinha(produto);
+            $('#tabelaProdutos>tbody').append(linha); 
+        });    
+    }
+
+    $("#formProduto").submit( function(event){
+        event.preventDefault();
+        criarProdutos();
+        $("#dlgProdutos").modal('hide');
+    });
+
     $(function(){
         carregarCategorias();
-        carregarProdutos()
+        carregarProdutos();
     })
 </script>
 @endsection

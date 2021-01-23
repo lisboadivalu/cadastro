@@ -23,8 +23,8 @@ class ControladorProduto extends Controller
 
     public function index()
     {
-        $produto = Produto::all();
-        return $produto->toJson();
+        $produtos = Produto::all();
+        return $produtos->toJson();
     }
 
     /**
@@ -56,12 +56,12 @@ class ControladorProduto extends Controller
         ];
         $request->validate($regras, $mensagem);
 
-        $produto = new Produto;
+        $produto = new Produto();
         $produto->name = $request->input('nomeProduto');
         $produto->preco = $request->input('precoProduto');
         $produto->categoria_id = $request->input('nomeCategoria');
         $produto->save();
-        return redirect()->route('produtos.index');
+        return json_encode($produto);
     }
 
     /**
@@ -125,12 +125,12 @@ class ControladorProduto extends Controller
      */
     public function destroy($id)
     {
-        $this->id = $id;
         $del = Produto::find($id);
         if(isset($del)){
             $del->delete();
+            return response('OK', 200);
         } 
-        return redirect()->route('produtos.index');
+        return response('Produto nao encontrado', 404);
     }
 
     

@@ -37,7 +37,7 @@
                 </div>
                 <div class="bts">
                     <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
-                    <button type="submit" class="btn btn-danger btn-sm"><a href="{{route('produtos.index')}}">Cancelar</a></button>
+                    <button type="submit" class="btn btn-danger btn-sm"><a href="{{route('index')}}">Cancelar</a></button>
                 </div>
             </div>
         </form>
