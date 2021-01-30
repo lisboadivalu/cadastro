@@ -72,7 +72,11 @@ class ControladorProduto extends Controller
      */
     public function show($id)
     {
-        //
+        $produto = Produto::find($id);
+        if(isset($produto)){
+            return json_encode($produto);
+        } 
+            return response('Produto nao encontrado', 404);
     }
 
     /**
@@ -98,6 +102,7 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     { 
+        dd($request->all());
         $regras = [
             'nomeProduto' => 'required',
             'precoProduto' => 'required',
@@ -108,13 +113,15 @@ class ControladorProduto extends Controller
         ];
         $request->validate($regras, $mensagem);
 
-        $this->id = $id;
         $produto = Produto::find($id);
-        $produto->name = $request->input('nomeProduto');
-        $produto->preco = $request->input('precoProduto');
-        $produto->categoria_id = $request->input('nomeCategoria');
-        $produto->save();
-        return redirect()->route('produtos.index');
+        if(isset($produto)){
+            $produto->name = $request->input('nomeProduto');
+            $produto->preco = $request->input('precoProduto');
+            $produto->categoria_id = $request->input('nomeCategoria');
+            $produto->save();
+            return json_encode($produto);
+        } 
+            return response('Produto nao encontrado', 404);
     }
 
     /**

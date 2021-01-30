@@ -62,8 +62,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="esp">Salvar</button>
-                        <button type="submit" class="btn btn-secondary" data-dismiss>Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -121,10 +121,42 @@
         });
     }
 
+    function salvarProduto(){
+        produto = {
+            id: $('#id').val(),
+            name: $('#nomeProduto').val(),
+            preco: $('#precoProduto').val(),
+            categoria_id: $('#nomeCategoria').val()
+        }
+        $.ajax({
+            type:"PUT",
+            url:"/api/produtos/" + produto.id,
+            context: this,
+            data: produto,
+            success: function() {
+                console.log('Atualizou OK');
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    function editar(id){
+        $.getJSON('api/produtos/' + id, function(data){
+            console.log(data);
+            $('#id').val(data.id);
+            $('#nomeProduto').val(data.name);
+            $('#precoProduto').val(data.preco);
+            $('#nomeCategoria').val(data.categoria_id);
+            $('#dlgProdutos').modal('show'); 
+        });
+    }
+
     function remover(id){
         $.ajax({
             type:"DELETE",
-            url:"api/produtos/" + id,
+            url:"/api/produtos/" + id,
             context: this,
             success: function(){
                 console.log('Apagou OK');
@@ -157,7 +189,10 @@
 
     $("#formProduto").submit( function(event){
         event.preventDefault();
-        criarProdutos();
+        if($("#id").val() != '')
+            salvarProduto();
+        else
+            criarProdutos();
         $("#dlgProdutos").modal('hide');
     });
 
