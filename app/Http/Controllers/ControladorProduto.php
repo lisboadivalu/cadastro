@@ -102,17 +102,6 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     { 
-        dd($request->all());
-        $regras = [
-            'nomeProduto' => 'required',
-            'precoProduto' => 'required',
-            'nomeCategoria' => 'required'
-        ];
-        $mensagem = [
-            'required' => 'O campo :attribute precisa ser preenchido.'
-        ];
-        $request->validate($regras, $mensagem);
-
         $produto = Produto::find($id);
         if(isset($produto)){
             $produto->name = $request->input('nomeProduto');

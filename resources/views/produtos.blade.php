@@ -16,7 +16,7 @@
                         </tr>
                         <div class="roll">
                             <tbody>
-                                    
+
                             </tbody>
                         </div>    
                     </head>
@@ -122,25 +122,35 @@
     }
 
     function salvarProduto(){
-        produto = {
+        prod = {
             id: $('#id').val(),
             name: $('#nomeProduto').val(),
             preco: $('#precoProduto').val(),
             categoria_id: $('#nomeCategoria').val()
-        }
+        };
         $.ajax({
             type:"PUT",
-            url:"/api/produtos/" + produto.id,
+            url:"/api/produtos/" + prod.id,
             context: this,
-            data: produto,
-            success: function() {
-                console.log('Atualizou OK');
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    }
+            data: prod,  
+            success: function(data) {
+                prod = JSON.parse(data);
+                linhas = $("#tabelaProdutos>tbody>tr");
+                e = linhas.filter( function(i, e){
+                    return ( e.cells[0].textContent == prod.id );
+                });
+                if (e){
+                    e[0].cells[0].textContent = prod.id;
+                    e[0].cells[1].textContent = prod.name;
+                    e[0].cells[2].textContent = prod.preco;
+                    e[0].cells[3].textContent = prod.categoria_id;
+                }
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }
 
     function editar(id){
         $.getJSON('api/produtos/' + id, function(data){
@@ -185,6 +195,38 @@
             linha = montarLinha(produto);
             $('#tabelaProdutos>tbody').append(linha); 
         });    
+    }
+
+    function salvarProduto(){
+        prod = {
+            id: $("#id").val(),
+            nomeProduto: $("#nomeProduto").val(),
+            precoProduto: $("#precoProduto").val(),
+            nomeCategoria: $("#nomeCategoria").val()
+        };
+        $.ajax({
+            type:"PUT",
+            url:"/api/produtos/" + prod.id,
+            data: prod,
+            context: this,
+            success: function(data){
+                prod = JSON.parse(data);
+                linhas = $("#tabelaProdutos>tbody>tr");
+                e = linhas.filter( function(i, e) {
+                    return (e.cells[0].textContent == prod.id); 
+                });
+                console.log('salvou OK');
+                if(e) {
+                    e[0].cells[0].textContent = prod.id;
+                    e[0].cells[1].textContent = prod.nomeProduto;
+                    e[0].cells[2].textContent = prod.precoProduto;
+                    e[0].cells[3].textContent = prod.nomeCategoria;
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
     }
 
     $("#formProduto").submit( function(event){
