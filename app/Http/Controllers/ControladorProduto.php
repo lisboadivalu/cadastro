@@ -61,7 +61,8 @@ class ControladorProduto extends Controller
         $produto->preco = $request->input('precoProduto');
         $produto->categoria_id = $request->input('nomeCategoria');
         $produto->save();
-        return json_encode($produto);
+        return view('produtos');
+        
     }
 
     /**
