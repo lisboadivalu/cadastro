@@ -1,2 +1,2 @@
-A simple CRUD made in LARAVEL.
-Along the time, was implemented a jquery API 
+A simple CRUD made in LARAVEL using AJAX, JQUERY and JSON.
+
